@@ -44,7 +44,7 @@
             <div class="footer-brand">
                 <span class="logo-icon">🧦</span>
                 <span class="logo-text">Nomad Socks</span>
-                <p>{% if LANGUAGE_CODE == 'mn' %}Монголын чанартай оймс{% else %}Quality socks from Mongolia{% endif %}</p>
+                <p>{% if LANGUAGE_CODE == 'mn' %}{{ site_settings.tagline_mn }}{% else %}{{ site_settings.tagline }}{% endif %}</p>
             </div>
             <div class="footer-links">
                 <h4>{% if LANGUAGE_CODE == 'mn' %}Түргэн холбоос{% else %}Quick Links{% endif %}</h4>
@@ -56,8 +56,9 @@
             </div>
             <div class="footer-contact">
                 <h4>{% if LANGUAGE_CODE == 'mn' %}Холбоо барих{% else %}Contact{% endif %}</h4>
-                <p>Email: hello@nomadsocks.com</p>
-                <p>{% if LANGUAGE_CODE == 'mn' %}Улаанбаатар, Монгол{% else %}Ulaanbaatar, Mongolia{% endif %}</p>
+                <p>Email: {{ site_settings.email }}</p>
+                {% if site_settings.phone %}<p>Phone: {{ site_settings.phone }}</p>{% endif %}
+                <p>{% if LANGUAGE_CODE == 'mn' %}{{ site_settings.address_mn }}{% else %}{{ site_settings.address }}{% endif %}</p>
             </div>
         </div>
         <div class="footer-bottom">
