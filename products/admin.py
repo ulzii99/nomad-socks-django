@@ -30,7 +30,7 @@ class ProductAdmin(admin.ModelAdmin):
             'fields': ('name_mn', 'description_mn')
         }),
         ('Details', {
-            'fields': ('category', 'price', 'material', 'image')
+            'fields': ('category', 'price', 'material', 'image', 'image_url')
         }),
         ('Status', {
             'fields': ('is_active', 'is_featured')
