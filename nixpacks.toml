@@ -3,4 +3,4 @@
 cmds = ["echo 'Skipping migrations during build'"]
 
 [start]
-cmd = "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn config.wsgi"
+cmd = "python manage.py migrate --noinput && python manage.py collectstatic --noinput && python manage.py create_default_admin && python manage.py load_sample_data && gunicorn config.wsgi"
