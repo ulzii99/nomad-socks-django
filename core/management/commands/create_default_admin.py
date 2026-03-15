@@ -8,12 +8,19 @@ class Command(BaseCommand):
     help = 'Create default admin user if none exists'
 
     def handle(self, *args, **options):
-        if not User.objects.filter(is_superuser=True).exists():
-            User.objects.create_superuser(
-                username='admin',
-                email='admin@nomadsocks.mn',
-                password='NomadSocks2024!'
-            )
-            self.stdout.write(self.style.SUCCESS('Created admin user'))
+        username = 'admin'
+        password = 'nomad123'
+
+        if User.objects.filter(username=username).exists():
+            # Update password for existing user
+            user = User.objects.get(username=username)
+            user.set_password(password)
+            user.save()
+            self.stdout.write(self.style.SUCCESS(f'Updated password for {username}'))
         else:
-            self.stdout.write('Admin user already exists')
+            User.objects.create_superuser(
+                username=username,
+                email='admin@nomadsocks.mn',
+                password=password
+            )
+            self.stdout.write(self.style.SUCCESS(f'Created admin user: {username}'))
