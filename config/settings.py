@@ -65,8 +65,20 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 # Database
-# Use PostgreSQL in production, SQLite for local development
-if os.getenv('DATABASE_URL'):
+# Use Railway's Postgres variables if available, otherwise SQLite for local dev
+if os.getenv('PGHOST'):
+    # Railway Postgres - use individual PG* variables
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('PGDATABASE', 'railway'),
+            'USER': os.getenv('PGUSER', 'postgres'),
+            'PASSWORD': os.getenv('PGPASSWORD', ''),
+            'HOST': os.getenv('PGHOST'),
+            'PORT': os.getenv('PGPORT', '5432'),
+        }
+    }
+elif os.getenv('DATABASE_URL'):
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
