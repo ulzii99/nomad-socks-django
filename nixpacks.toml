@@ -1,2 +1,6 @@
+# Disable release phase - run migrations at runtime instead
 [phases.release]
-cmds = []
+cmds = ["echo 'Skipping migrations during build'"]
+
+[start]
+cmd = "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn config.wsgi"
