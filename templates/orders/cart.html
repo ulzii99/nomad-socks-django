@@ -18,8 +18,8 @@
                 <div class="cart-item">
                     <div class="cart-item-image">
                         <a href="{{ item.product.get_absolute_url }}">
-                            {% if item.product.image %}
-                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                            {% if item.product.get_image_url %}
+                            <img src="{{ item.product.get_image_url }}" alt="{{ item.product.name }}">
                             {% else %}
                             <div class="placeholder-image" data-text="{{ item.product.name_mn|truncatewords:2 }}"></div>
                             {% endif %}
