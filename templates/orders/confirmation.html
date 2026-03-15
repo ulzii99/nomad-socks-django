@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if LANGUAGE_CODE == 'mn' %}Захиалга баталгаажлаа{% else %}Order Confirmed{% endif %} - Nomad Socks{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{% if LANGUAGE_CODE == 'mn' %}Баярлалаа!{% else %}Thank You!{% endif %}</h1>
+    </div>
+</section>
+
+<section class="confirmation-section">
+    <div class="container">
+        <div class="confirmation-box">
+            <div class="confirmation-icon">✓</div>
+            <h2>{% if LANGUAGE_CODE == 'mn' %}Таны захиалга амжилттай бүртгэгдлээ{% else %}Your order has been placed successfully{% endif %}</h2>
+            <p class="order-number">
+                {% if LANGUAGE_CODE == 'mn' %}Захиалгын дугаар:{% else %}Order Number:{% endif %}
+                <strong>#{{ order.id }}</strong>
+            </p>
+
+            <div class="confirmation-details">
+                <h3>{% if LANGUAGE_CODE == 'mn' %}Захиалгын дэлгэрэнгүй{% else %}Order Details{% endif %}</h3>
+
+                <div class="detail-row">
+                    <span>{% if LANGUAGE_CODE == 'mn' %}Нэр:{% else %}Name:{% endif %}</span>
+                    <span>{{ order.customer_name }}</span>
+                </div>
+                <div class="detail-row">
+                    <span>{% if LANGUAGE_CODE == 'mn' %}И-мэйл:{% else %}Email:{% endif %}</span>
+                    <span>{{ order.customer_email }}</span>
+                </div>
+                <div class="detail-row">
+                    <span>{% if LANGUAGE_CODE == 'mn' %}Утас:{% else %}Phone:{% endif %}</span>
+                    <span>{{ order.customer_phone }}</span>
+                </div>
+                <div class="detail-row">
+                    <span>{% if LANGUAGE_CODE == 'mn' %}Хаяг:{% else %}Address:{% endif %}</span>
+                    <span>{{ order.shipping_address }}, {{ order.shipping_city }}</span>
+                </div>
+                <div class="detail-row">
+                    <span>{% if LANGUAGE_CODE == 'mn' %}Төлбөрийн хэлбэр:{% else %}Payment:{% endif %}</span>
+                    <span>{{ order.get_payment_method_display }}</span>
+                </div>
+
+                <h3>{% if LANGUAGE_CODE == 'mn' %}Бүтээгдэхүүнүүд{% else %}Items{% endif %}</h3>
+
+                {% for item in order.items.all %}
+                <div class="order-item">
+                    <span>{% if LANGUAGE_CODE == 'mn' %}{{ item.product.name_mn }}{% else %}{{ item.product.name }}{% endif %} ({{ item.size }}) × {{ item.quantity }}</span>
+                    <span>{{ item.get_total_display }}</span>
+                </div>
+                {% endfor %}
+
+                <div class="order-total">
+                    <span>{% if LANGUAGE_CODE == 'mn' %}Нийт:{% else %}Total:{% endif %}</span>
+                    <span>{{ order.get_total_display }}</span>
+                </div>
+            </div>
+
+            <p class="confirmation-note">
+                {% if LANGUAGE_CODE == 'mn' %}
+                Бид таны захиалгыг хүлээн авлаа. Удахгүй тантай холбогдох болно.
+                {% else %}
+                We have received your order and will contact you shortly.
+                {% endif %}
+            </p>
+
+            <a href="{% url 'products:list' %}" class="btn btn-primary">
+                {% if LANGUAGE_CODE == 'mn' %}Дэлгүүрт буцах{% else %}Continue Shopping{% endif %}
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

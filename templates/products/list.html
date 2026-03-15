@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if LANGUAGE_CODE == 'mn' %}Дэлгүүр - Номад Сокс{% else %}Shop - Nomad Socks{% endif %}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{% if LANGUAGE_CODE == 'mn' %}Манай оймс{% else %}Our Socks{% endif %}</h1>
+        <p>{% if LANGUAGE_CODE == 'mn' %}Өдөр тутмын хэрэглээнд тохиромжтой тав тухтай хувцас{% else %}Comfortable everyday wear for every occasion{% endif %}</p>
+    </div>
+</section>
+
+<section class="products-section">
+    <div class="container">
+        <div class="products-toolbar">
+            <div class="filter-group">
+                <label for="category-filter">{% if LANGUAGE_CODE == 'mn' %}Ангилал:{% else %}Category:{% endif %}</label>
+                <select id="category-filter" onchange="window.location.href='?category=' + this.value">
+                    <option value="">{% if LANGUAGE_CODE == 'mn' %}Бүх оймс{% else %}All Socks{% endif %}</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.slug }}" {% if category.slug == cat.slug %}selected{% endif %}>
+                        {% if LANGUAGE_CODE == 'mn' %}{{ cat.name_mn }}{% else %}{{ cat.name }}{% endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="products-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <div class="product-card-image">
+                    <a href="{{ product.get_absolute_url }}">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                        <div class="placeholder-image" data-text="{{ product.name_mn|truncatewords:2 }}"></div>
+                        {% endif %}
+                    </a>
+                </div>
+                <div class="product-card-body">
+                    <h3><a href="{{ product.get_absolute_url }}">{% if LANGUAGE_CODE == 'mn' %}{{ product.name_mn }}{% else %}{{ product.name }}{% endif %}</a></h3>
+                    <p class="product-card-price">{{ product.get_price_display }}</p>
+                    <form method="post" action="{% url 'orders:cart_add' product.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="size" value="M">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn btn-primary">{% if LANGUAGE_CODE == 'mn' %}Сагсанд нэмэх{% else %}Add to Cart{% endif %}</button>
+                    </form>
+                </div>
+            </div>
+            {% empty %}
+            <p>{% if LANGUAGE_CODE == 'mn' %}Бүтээгдэхүүн олдсонгүй.{% else %}No products found.{% endif %}</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

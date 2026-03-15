@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if LANGUAGE_CODE == 'mn' %}{{ product.name_mn }}{% else %}{{ product.name }}{% endif %} - Nomad Socks{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav class="breadcrumb">
+        <a href="{% url 'core:home' %}">{% if LANGUAGE_CODE == 'mn' %}Нүүр{% else %}Home{% endif %}</a>
+        <span>/</span>
+        <a href="{% url 'products:list' %}">{% if LANGUAGE_CODE == 'mn' %}Дэлгүүр{% else %}Shop{% endif %}</a>
+        <span>/</span>
+        <span>{% if LANGUAGE_CODE == 'mn' %}{{ product.name_mn }}{% else %}{{ product.name }}{% endif %}</span>
+    </nav>
+
+    <div class="product-detail">
+        <div class="product-gallery">
+            <div class="product-main-image">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="large">
+                {% else %}
+                <div class="placeholder-image large" data-text="{{ product.name_mn|truncatewords:2 }}"></div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="product-info">
+            <h1>{% if LANGUAGE_CODE == 'mn' %}{{ product.name_mn }}{% else %}{{ product.name }}{% endif %}</h1>
+            <p class="product-price">{{ product.get_price_display }}</p>
+            <p class="product-description">{% if LANGUAGE_CODE == 'mn' %}{{ product.description_mn }}{% else %}{{ product.description }}{% endif %}</p>
+
+            <form method="post" action="{% url 'orders:cart_add' product.id %}">
+                {% csrf_token %}
+                <div class="product-options">
+                    <div class="option-group">
+                        <label for="size-select">{% if LANGUAGE_CODE == 'mn' %}Хэмжээ:{% else %}Size:{% endif %}</label>
+                        <select id="size-select" name="size">
+                            <option value="S">{% if LANGUAGE_CODE == 'mn' %}Жижиг (US 5-7){% else %}Small (US 5-7){% endif %}</option>
+                            <option value="M" selected>{% if LANGUAGE_CODE == 'mn' %}Дунд (US 8-10){% else %}Medium (US 8-10){% endif %}</option>
+                            <option value="L">{% if LANGUAGE_CODE == 'mn' %}Том (US 11-13){% else %}Large (US 11-13){% endif %}</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label for="quantity-input">{% if LANGUAGE_CODE == 'mn' %}Тоо ширхэг:{% else %}Quantity:{% endif %}</label>
+                        <div class="quantity-selector">
+                            <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
+                            <input type="number" id="quantity-input" name="quantity" value="1" min="1" max="10">
+                            <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-large">{% if LANGUAGE_CODE == 'mn' %}Сагсанд нэмэх{% else %}Add to Cart{% endif %}</button>
+            </form>
+
+            <div class="product-details-accordion">
+                <details open>
+                    <summary>{% if LANGUAGE_CODE == 'mn' %}Бүтээгдэхүүний дэлгэрэнгүй{% else %}Product Details{% endif %}</summary>
+                    <ul>
+                        {% for feature in product.features.all %}
+                        <li>{% if LANGUAGE_CODE == 'mn' %}{{ feature.feature_mn }}{% else %}{{ feature.feature }}{% endif %}</li>
+                        {% empty %}
+                        <li>{{ product.material }}</li>
+                        {% endfor %}
+                    </ul>
+                </details>
+                <details>
+                    <summary>{% if LANGUAGE_CODE == 'mn' %}Хүргэлтийн мэдээлэл{% else %}Shipping Information{% endif %}</summary>
+                    <p>{% if LANGUAGE_CODE == 'mn' %}Дотоодын захиалга 3-5 ажлын өдөрт хүргэгдэнэ. Олон улсын хүргэлт 10-20 ажлын өдөр болно.{% else %}Domestic orders typically arrive within 3-5 business days. International shipping takes 10-20 business days.{% endif %}</p>
+                </details>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function changeQty(delta) {
+    const input = document.getElementById('quantity-input');
+    let value = parseInt(input.value) + delta;
+    if (value < 1) value = 1;
+    if (value > 10) value = 10;
+    input.value = value;
+}
+</script>
+{% endblock %}

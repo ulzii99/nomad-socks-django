@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if LANGUAGE_CODE == 'mn' %}Номад Сокс - Монголын тав тухтай өдөр тутмын оймс{% else %}Nomad Socks - Comfortable Everyday Socks from Mongolia{% endif %}{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-content">
+        <h1>{% if LANGUAGE_CODE == 'mn' %}Алхам бүрт тав тухтай{% else %}Comfort for Every Step{% endif %}</h1>
+        <p>{% if LANGUAGE_CODE == 'mn' %}Монголын зүрхнээс гар урлалын өдөр тутмын оймс. Таны мэдрэх чанар, таалагдах загвар.{% else %}Handcrafted everyday socks from the heart of Mongolia. Quality you can feel, style you'll love.{% endif %}</p>
+        <a href="{% url 'products:list' %}" class="btn btn-primary">{% if LANGUAGE_CODE == 'mn' %}Худалдан авах{% else %}Shop Now{% endif %}</a>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature">
+                <span class="feature-icon">✨</span>
+                <h3>{% if LANGUAGE_CODE == 'mn' %}Чанартай материал{% else %}Quality Materials{% endif %}</h3>
+                <p>{% if LANGUAGE_CODE == 'mn' %}Урт удаан тав тухтай байхын тулд дээд зэргийн хөвөн холимог{% else %}Premium cotton blends for lasting comfort{% endif %}</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🏭</span>
+                <h3>{% if LANGUAGE_CODE == 'mn' %}Монголд үйлдвэрлэсэн{% else %}Made in Mongolia{% endif %}</h3>
+                <p>{% if LANGUAGE_CODE == 'mn' %}Орчин үеийн машинаар анхааралтай хийсэн{% else %}Crafted with care using modern machines{% endif %}</p>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🌍</span>
+                <h3>{% if LANGUAGE_CODE == 'mn' %}Дэлхий даяар хүргэлт{% else %}Worldwide Shipping{% endif %}</h3>
+                <p>{% if LANGUAGE_CODE == 'mn' %}Бид таны хаалган дээр хүргэнэ{% else %}We deliver to your doorstep globally{% endif %}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="featured-products">
+    <div class="container">
+        <h2>{% if LANGUAGE_CODE == 'mn' %}Онцлох оймс{% else %}Featured Socks{% endif %}</h2>
+        <div class="products-grid">
+            {% for product in featured_products %}
+            <div class="product-card">
+                <div class="product-card-image">
+                    <a href="{{ product.get_absolute_url }}">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                        <div class="placeholder-image" data-text="{{ product.name_mn|truncatewords:2 }}"></div>
+                        {% endif %}
+                    </a>
+                </div>
+                <div class="product-card-body">
+                    <h3><a href="{{ product.get_absolute_url }}">{% if LANGUAGE_CODE == 'mn' %}{{ product.name_mn }}{% else %}{{ product.name }}{% endif %}</a></h3>
+                    <p class="product-card-price">{{ product.get_price_display }}</p>
+                    <form method="post" action="{% url 'orders:cart_add' product.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="size" value="M">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn btn-primary">{% if LANGUAGE_CODE == 'mn' %}Сагсанд нэмэх{% else %}Add to Cart{% endif %}</button>
+                    </form>
+                </div>
+            </div>
+            {% empty %}
+            <p>{% if LANGUAGE_CODE == 'mn' %}Бүтээгдэхүүн одоогоор байхгүй байна.{% else %}No products available yet.{% endif %}</p>
+            {% endfor %}
+        </div>
+        <div class="section-cta">
+            <a href="{% url 'products:list' %}" class="btn btn-secondary">{% if LANGUAGE_CODE == 'mn' %}Бүх бүтээгдэхүүн харах{% else %}View All Products{% endif %}</a>
+        </div>
+    </div>
+</section>
+
+<section class="about-preview">
+    <div class="container about-preview-content">
+        <div class="about-text">
+            <h2>{% if LANGUAGE_CODE == 'mn' %}Манай түүх{% else %}Our Story{% endif %}</h2>
+            <p>{% if LANGUAGE_CODE == 'mn' %}Номад Сокс нь энгийн санаанаас төрсөн: хүмүүсийн найдаж болох тав тухтай, чанартай өдөр тутмын оймс бүтээх. Монголын Улаанбаатарт байрлах бид бол урлаг дадлагад хайртай жижиг гэр бүлийн үйлдвэр.{% else %}Nomad Socks was born from a simple idea: create comfortable, quality everyday socks that people can rely on. Based in Ulaanbaatar, Mongolia, we're a small family operation with a passion for craftsmanship.{% endif %}</p>
+            <a href="{% url 'core:about' %}" class="btn btn-outline">{% if LANGUAGE_CODE == 'mn' %}Дэлгэрэнгүй{% else %}Learn More{% endif %}</a>
+        </div>
+        <div class="about-image">
+            <div class="placeholder-image" data-text="{% if LANGUAGE_CODE == 'mn' %}Манай цех{% else %}Our Workshop{% endif %}"></div>
+        </div>
+    </div>
+</section>
+
+<section class="newsletter">
+    <div class="container">
+        <h2>{% if LANGUAGE_CODE == 'mn' %}Холбоотой байгаарай{% else %}Stay Connected{% endif %}</h2>
+        <p>{% if LANGUAGE_CODE == 'mn' %}Шинэ оймсны загвар болон тусгай санал авахын тулд бүртгүүлээрэй{% else %}Subscribe for updates on new sock designs and special offers{% endif %}</p>
+        <form class="newsletter-form" method="post" action="{% url 'core:newsletter' %}">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="{% if LANGUAGE_CODE == 'mn' %}Имэйл хаягаа оруулна уу{% else %}Enter your email{% endif %}" required>
+            <button type="submit" class="btn btn-primary">{% if LANGUAGE_CODE == 'mn' %}Бүртгүүлэх{% else %}Subscribe{% endif %}</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

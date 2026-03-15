@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if LANGUAGE_CODE == 'mn' %}Төлбөр тооцоо{% else %}Checkout{% endif %} - Nomad Socks{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{% if LANGUAGE_CODE == 'mn' %}Төлбөр тооцоо{% else %}Checkout{% endif %}</h1>
+    </div>
+</section>
+
+<section class="checkout-section">
+    <div class="container">
+        <form method="post" class="checkout-form">
+            {% csrf_token %}
+            <div class="checkout-layout">
+                <div class="checkout-details">
+                    <h2>{% if LANGUAGE_CODE == 'mn' %}Хүргэлтийн мэдээлэл{% else %}Shipping Information{% endif %}</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first_name">{% if LANGUAGE_CODE == 'mn' %}Нэр{% else %}First Name{% endif %} *</label>
+                            <input type="text" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last_name">{% if LANGUAGE_CODE == 'mn' %}Овог{% else %}Last Name{% endif %} *</label>
+                            <input type="text" id="last_name" name="last_name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">{% if LANGUAGE_CODE == 'mn' %}И-мэйл{% else %}Email{% endif %} *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">{% if LANGUAGE_CODE == 'mn' %}Утас{% else %}Phone{% endif %} *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">{% if LANGUAGE_CODE == 'mn' %}Хаяг{% else %}Address{% endif %} *</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">{% if LANGUAGE_CODE == 'mn' %}Хот/Аймаг{% else %}City{% endif %} *</label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="postal_code">{% if LANGUAGE_CODE == 'mn' %}Шуудангийн код{% else %}Postal Code{% endif %}</label>
+                            <input type="text" id="postal_code" name="postal_code">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">{% if LANGUAGE_CODE == 'mn' %}Нэмэлт тайлбар{% else %}Order Notes{% endif %}</label>
+                        <textarea id="notes" name="notes" rows="3" placeholder="{% if LANGUAGE_CODE == 'mn' %}Хүргэлтийн талаар нэмэлт мэдээлэл...{% else %}Additional delivery instructions...{% endif %}"></textarea>
+                    </div>
+
+                    <h2>{% if LANGUAGE_CODE == 'mn' %}Төлбөрийн хэлбэр{% else %}Payment Method{% endif %}</h2>
+
+                    <div class="payment-methods">
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="qpay" checked>
+                            <span class="payment-label">QPay</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="socialpay">
+                            <span class="payment-label">SocialPay</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="bank_transfer">
+                            <span class="payment-label">{% if LANGUAGE_CODE == 'mn' %}Банкны шилжүүлэг{% else %}Bank Transfer{% endif %}</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="cash">
+                            <span class="payment-label">{% if LANGUAGE_CODE == 'mn' %}Бэлэн мөнгө{% else %}Cash on Delivery{% endif %}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="order-summary">
+                    <h2>{% if LANGUAGE_CODE == 'mn' %}Захиалгын хураангуй{% else %}Order Summary{% endif %}</h2>
+
+                    <div class="summary-items">
+                        {% for item in cart %}
+                        <div class="summary-item">
+                            <span class="item-name">
+                                {% if LANGUAGE_CODE == 'mn' %}{{ item.product.name_mn }}{% else %}{{ item.product.name }}{% endif %}
+                                <small>({{ item.size }}) × {{ item.quantity }}</small>
+                            </span>
+                            <span class="item-price">₮{{ item.total_price|floatformat:0 }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="summary-totals">
+                        <div class="summary-row">
+                            <span>{% if LANGUAGE_CODE == 'mn' %}Нийлбэр{% else %}Subtotal{% endif %}</span>
+                            <span>{{ cart.get_total_display }}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>{% if LANGUAGE_CODE == 'mn' %}Хүргэлт{% else %}Shipping{% endif %}</span>
+                            <span>{% if LANGUAGE_CODE == 'mn' %}Үнэгүй{% else %}Free{% endif %}</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>{% if LANGUAGE_CODE == 'mn' %}Нийт{% else %}Total{% endif %}</span>
+                            <span>{{ cart.get_total_display }}</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-large">
+                        {% if LANGUAGE_CODE == 'mn' %}Захиалга баталгаажуулах{% else %}Place Order{% endif %}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

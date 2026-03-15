@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if LANGUAGE_CODE == 'mn' %}Холбоо барих - Номад Сокс{% else %}Contact Us - Nomad Socks{% endif %}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{% if LANGUAGE_CODE == 'mn' %}Холбоо барих{% else %}Contact Us{% endif %}</h1>
+        <p>{% if LANGUAGE_CODE == 'mn' %}Бид таныг сонсохдоо баяртай байна{% else %}We'd love to hear from you{% endif %}</p>
+    </div>
+</section>
+
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h2>{% if LANGUAGE_CODE == 'mn' %}Холбоо барих{% else %}Get in Touch{% endif %}</h2>
+                <p>{% if LANGUAGE_CODE == 'mn' %}Манай бүтээгдэхүүн, хүргэлтийн талаар асуулт байна уу, эсвэл захиалга өгөхийг хүсэж байна уу? Бидэнтэй холбогдоорой!{% else %}Have questions about our products, shipping, or want to place a custom order? Reach out to us!{% endif %}</p>
+
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <span class="contact-icon">📧</span>
+                        <div>
+                            <h3>{% if LANGUAGE_CODE == 'mn' %}Имэйл{% else %}Email{% endif %}</h3>
+                            <p>hello@nomadsocks.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <span class="contact-icon">📍</span>
+                        <div>
+                            <h3>{% if LANGUAGE_CODE == 'mn' %}Байршил{% else %}Location{% endif %}</h3>
+                            <p>{% if LANGUAGE_CODE == 'mn' %}Улаанбаатар, Монгол{% else %}Ulaanbaatar, Mongolia{% endif %}</p>
+                        </div>
+                    </div>
+                    <div class="contact-method">
+                        <span class="contact-icon">⏰</span>
+                        <div>
+                            <h3>{% if LANGUAGE_CODE == 'mn' %}Ажлын цаг{% else %}Business Hours{% endif %}</h3>
+                            <p>{% if LANGUAGE_CODE == 'mn' %}Даваа - Баасан: 9:00 - 18:00{% else %}Monday - Friday: 9:00 AM - 6:00 PM{% endif %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form-container">
+                <h2>{% if LANGUAGE_CODE == 'mn' %}Мессеж илгээх{% else %}Send us a Message{% endif %}</h2>
+                <form class="contact-form" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">{% if LANGUAGE_CODE == 'mn' %}Нэр *{% else %}Name *{% endif %}</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">{% if LANGUAGE_CODE == 'mn' %}Имэйл *{% else %}Email *{% endif %}</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">{% if LANGUAGE_CODE == 'mn' %}Сэдэв{% else %}Subject{% endif %}</label>
+                        <select id="subject" name="subject">
+                            <option value="general">{% if LANGUAGE_CODE == 'mn' %}Ерөнхий асуулт{% else %}General Inquiry{% endif %}</option>
+                            <option value="order">{% if LANGUAGE_CODE == 'mn' %}Захиалга өгөх{% else %}Place an Order{% endif %}</option>
+                            <option value="shipping">{% if LANGUAGE_CODE == 'mn' %}Хүргэлтийн асуулт{% else %}Shipping Question{% endif %}</option>
+                            <option value="wholesale">{% if LANGUAGE_CODE == 'mn' %}Бөөний худалдаа{% else %}Wholesale Inquiry{% endif %}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">{% if LANGUAGE_CODE == 'mn' %}Мессеж *{% else %}Message *{% endif %}</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">{% if LANGUAGE_CODE == 'mn' %}Мессеж илгээх{% else %}Send Message{% endif %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

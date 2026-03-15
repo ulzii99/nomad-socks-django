@@ -1,0 +1,78 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Nomad Socks{% endblock %}</title>
+    <meta name="description" content="{% block description %}Монголд үйлдвэрлэсэн тав тухтай, чанартай өдөр тутмын оймс.{% endblock %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="{% url 'core:home' %}" class="logo">
+                <span class="logo-icon">🧦</span>
+                <span class="logo-text">Nomad Socks</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="{% url 'core:home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>{% if LANGUAGE_CODE == 'mn' %}Нүүр{% else %}Home{% endif %}</a></li>
+                <li><a href="{% url 'products:list' %}" {% if 'products' in request.resolver_match.app_name %}class="active"{% endif %}>{% if LANGUAGE_CODE == 'mn' %}Дэлгүүр{% else %}Shop{% endif %}</a></li>
+                <li><a href="{% url 'core:about' %}" {% if request.resolver_match.url_name == 'about' %}class="active"{% endif %}>{% if LANGUAGE_CODE == 'mn' %}Бидний тухай{% else %}About{% endif %}</a></li>
+                <li><a href="{% url 'core:contact' %}" {% if request.resolver_match.url_name == 'contact' %}class="active"{% endif %}>{% if LANGUAGE_CODE == 'mn' %}Холбоо барих{% else %}Contact{% endif %}</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="{% url 'set_language' %}?lang={% if LANGUAGE_CODE == 'mn' %}en{% else %}mn{% endif %}&next={{ request.path }}" class="lang-toggle">
+                    {% if LANGUAGE_CODE == 'mn' %}EN{% else %}MN{% endif %}
+                </a>
+                <a href="{% url 'orders:cart' %}" class="cart-link {% if request.resolver_match.url_name == 'cart' %}active{% endif %}">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count">{{ cart|length }}</span>
+                </a>
+                <button class="mobile-menu-btn" aria-label="Menu">☰</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <span class="logo-icon">🧦</span>
+                <span class="logo-text">Nomad Socks</span>
+                <p>{% if LANGUAGE_CODE == 'mn' %}Монголын чанартай оймс{% else %}Quality socks from Mongolia{% endif %}</p>
+            </div>
+            <div class="footer-links">
+                <h4>{% if LANGUAGE_CODE == 'mn' %}Түргэн холбоос{% else %}Quick Links{% endif %}</h4>
+                <ul>
+                    <li><a href="{% url 'products:list' %}">{% if LANGUAGE_CODE == 'mn' %}Дэлгүүр{% else %}Shop{% endif %}</a></li>
+                    <li><a href="{% url 'core:about' %}">{% if LANGUAGE_CODE == 'mn' %}Бидний тухай{% else %}About Us{% endif %}</a></li>
+                    <li><a href="{% url 'core:contact' %}">{% if LANGUAGE_CODE == 'mn' %}Холбоо барих{% else %}Contact{% endif %}</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>{% if LANGUAGE_CODE == 'mn' %}Холбоо барих{% else %}Contact{% endif %}</h4>
+                <p>Email: hello@nomadsocks.com</p>
+                <p>{% if LANGUAGE_CODE == 'mn' %}Улаанбаатар, Монгол{% else %}Ulaanbaatar, Mongolia{% endif %}</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>{% if LANGUAGE_CODE == 'mn' %}© 2024 Номад Сокс. Бүх эрх хуулиар хамгаалагдсан.{% else %}© 2024 Nomad Socks. All rights reserved.{% endif %}</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn')?.addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

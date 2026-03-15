@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if LANGUAGE_CODE == 'mn' %}Бидний тухай - Номад Сокс{% else %}About Us - Nomad Socks{% endif %}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{% if LANGUAGE_CODE == 'mn' %}Номад Сокс-ын тухай{% else %}About Nomad Socks{% endif %}</h1>
+        <p>{% if LANGUAGE_CODE == 'mn' %}Монголын зүрхнээс манай түүх{% else %}Our story from the heart of Mongolia{% endif %}</p>
+    </div>
+</section>
+
+<section class="about-story">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-content">
+                <h2>{% if LANGUAGE_CODE == 'mn' %}Манай түүх{% else %}Our Story{% endif %}</h2>
+                <p>{% if LANGUAGE_CODE == 'mn' %}Номад Сокс нь энгийн санаанаас төрсөн: хүмүүсийн найдаж болох тав тухтай, чанартай өдөр тутмын оймс бүтээх. Монголын Улаанбаатарт байрлах бид бол урлаг дадлагад хайртай жижиг гэр бүлийн үйлдвэр.{% else %}Nomad Socks was born from a simple idea: create comfortable, quality everyday socks that people can rely on. Based in Ulaanbaatar, Mongolia, we're a small family operation with a passion for craftsmanship.{% endif %}</p>
+                <p>{% if LANGUAGE_CODE == 'mn' %}Жижиг эхлэлээс 4 оймс хийх машинтай цех болж өргөжин, дотоод болон дэлхий даяарх худалдан авагчдад чанартай оймс үйлдвэрлэж байна.{% else %}What started as a small venture has grown into a workshop with 4 sock-making machines, producing quality socks for customers both locally in Mongolia and around the world.{% endif %}</p>
+            </div>
+            <div class="about-image">
+                <div class="placeholder-image" data-text="{% if LANGUAGE_CODE == 'mn' %}Манай баг{% else %}Our Team{% endif %}"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about-values">
+    <div class="container">
+        <h2>{% if LANGUAGE_CODE == 'mn' %}Бидний итгэл үнэмшил{% else %}What We Believe{% endif %}</h2>
+        <div class="values-grid">
+            <div class="value-card">
+                <span class="value-icon">🎯</span>
+                <h3>{% if LANGUAGE_CODE == 'mn' %}Чанар нэгдүгээрт{% else %}Quality First{% endif %}</h3>
+                <p>{% if LANGUAGE_CODE == 'mn' %}Бид дээд зэргийн материал, анхааралтай урлаг дадлага ашиглан оймс бүр манай өндөр стандартад нийцэж байгаа эсэхийг баталгаажуулдаг.{% else %}We use premium materials and careful craftsmanship to ensure every pair of socks meets our high standards.{% endif %}</p>
+            </div>
+            <div class="value-card">
+                <span class="value-icon">👨‍👩‍👧‍👦</span>
+                <h3>{% if LANGUAGE_CODE == 'mn' %}Гэр бүлийн үнэт зүйлс{% else %}Family Values{% endif %}</h3>
+                <p>{% if LANGUAGE_CODE == 'mn' %}Гэр бүлийн бизнес болохын хувьд бид бүх зүйлдээ анхаарал тавьж, худалдан авагчдыг өргөтгөсөн гэр бүл шиг хандаж ажилладаг.{% else %}As a family business, we put care and attention into everything we do, treating customers like extended family.{% endif %}</p>
+            </div>
+            <div class="value-card">
+                <span class="value-icon">🌏</span>
+                <h3>{% if LANGUAGE_CODE == 'mn' %}Дэлхийн хүрээнд{% else %}Global Reach{% endif %}</h3>
+                <p>{% if LANGUAGE_CODE == 'mn' %}Монголоос дэлхий рүү бид бүтээгдэхүүнээ хаа сайгүй байгаа худалдан авагчидтай хуваалцахаар бахархдаг.{% else %}From Mongolia to the world, we're proud to share our products with customers everywhere.{% endif %}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about-cta">
+    <div class="container">
+        <h2>{% if LANGUAGE_CODE == 'mn' %}Номад Сокс туршихад бэлэн үү?{% else %}Ready to Experience Nomad Socks?{% endif %}</h2>
+        <p>{% if LANGUAGE_CODE == 'mn' %}Манай цуглуулгыг үзэж, төгс оймсоо олоорой.{% else %}Browse our collection and find your perfect pair.{% endif %}</p>
+        <a href="{% url 'products:list' %}" class="btn btn-primary">{% if LANGUAGE_CODE == 'mn' %}Худалдан авах{% else %}Shop Now{% endif %}</a>
+    </div>
+</section>
+{% endblock %}

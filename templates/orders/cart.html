@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if LANGUAGE_CODE == 'mn' %}Худалдан авалтын сагс{% else %}Shopping Cart{% endif %} - Nomad Socks{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{% if LANGUAGE_CODE == 'mn' %}Худалдан авалтын сагс{% else %}Shopping Cart{% endif %}</h1>
+    </div>
+</section>
+
+<section class="cart-section">
+    <div class="container">
+        <div class="cart-layout">
+            {% if cart|length > 0 %}
+            <div class="cart-items">
+                {% for item in cart %}
+                <div class="cart-item">
+                    <div class="cart-item-image">
+                        <a href="{{ item.product.get_absolute_url }}">
+                            {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                            {% else %}
+                            <div class="placeholder-image" data-text="{{ item.product.name_mn|truncatewords:2 }}"></div>
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="cart-item-details">
+                        <h3><a href="{{ item.product.get_absolute_url }}">{% if LANGUAGE_CODE == 'mn' %}{{ item.product.name_mn }}{% else %}{{ item.product.name }}{% endif %}</a></h3>
+                        <p class="cart-item-meta">{% if LANGUAGE_CODE == 'mn' %}Хэмжээ:{% else %}Size:{% endif %} {{ item.size }}</p>
+                        <p class="cart-item-price">₮{{ item.price|floatformat:0 }} {% if LANGUAGE_CODE == 'mn' %}тус бүр{% else %}each{% endif %}</p>
+                        <form method="post" action="{% url 'orders:cart_update' item.product.id item.size %}" style="display: inline;">
+                            {% csrf_token %}
+                            <div class="quantity-selector">
+                                <button type="submit" name="action" value="decrease" class="qty-btn">−</button>
+                                <input type="number" value="{{ item.quantity }}" readonly style="width: 50px; text-align: center;">
+                                <button type="submit" name="action" value="increase" class="qty-btn">+</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="cart-item-actions">
+                        <span class="cart-item-total">₮{{ item.total_price|floatformat:0 }}</span>
+                        <form method="post" action="{% url 'orders:cart_remove' item.product.id item.size %}">
+                            {% csrf_token %}
+                            <button type="submit" class="remove-btn">{% if LANGUAGE_CODE == 'mn' %}Устгах{% else %}Remove{% endif %}</button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="cart-summary">
+                <h2>{% if LANGUAGE_CODE == 'mn' %}Захиалгын хураангуй{% else %}Order Summary{% endif %}</h2>
+                <div class="summary-row">
+                    <span>{% if LANGUAGE_CODE == 'mn' %}Нийлбэр{% else %}Subtotal{% endif %}</span>
+                    <span>{{ cart.get_total_display }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>{% if LANGUAGE_CODE == 'mn' %}Хүргэлт{% else %}Shipping{% endif %}</span>
+                    <span>{% if LANGUAGE_CODE == 'mn' %}Төлбөр тооцоход тооцоолно{% else %}Calculated at checkout{% endif %}</span>
+                </div>
+                <div class="summary-row total">
+                    <span>{% if LANGUAGE_CODE == 'mn' %}Нийт{% else %}Total{% endif %}</span>
+                    <span>{{ cart.get_total_display }}</span>
+                </div>
+                <a href="{% url 'orders:checkout' %}" class="btn btn-primary btn-large">{% if LANGUAGE_CODE == 'mn' %}Төлбөр тооцоо руу{% else %}Proceed to Checkout{% endif %}</a>
+            </div>
+            {% else %}
+            <div class="cart-empty">
+                <span class="empty-icon">🛒</span>
+                <h2>{% if LANGUAGE_CODE == 'mn' %}Таны сагс хоосон байна{% else %}Your cart is empty{% endif %}</h2>
+                <p>{% if LANGUAGE_CODE == 'mn' %}Та одоогоор оймс нэмээгүй байна!{% else %}Looks like you haven't added any socks yet!{% endif %}</p>
+                <a href="{% url 'products:list' %}" class="btn btn-primary">{% if LANGUAGE_CODE == 'mn' %}Худалдан авалт эхлэх{% else %}Start Shopping{% endif %}</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
