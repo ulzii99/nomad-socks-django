@@ -22,6 +22,11 @@ if RAILWAY_PUBLIC_DOMAIN:
 # Also allow .railway.app subdomains
 ALLOWED_HOSTS.append('.railway.app')
 
+# CSRF trusted origins for HTTPS
+CSRF_TRUSTED_ORIGINS = ['https://*.railway.app']
+if RAILWAY_PUBLIC_DOMAIN:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RAILWAY_PUBLIC_DOMAIN}')
+
 # Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
