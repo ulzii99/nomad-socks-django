@@ -36,6 +36,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=0, help_text="Үнэ (₮)")
 
     image = models.ImageField(upload_to='products/', blank=True, null=True)
+    image_url = models.URLField(blank=True, null=True, help_text="External image URL (use this instead of upload)")
 
     # Product details
     material = models.CharField(max_length=200, default="80% хөвөн, 17% полиэстер, 3% эластан")
@@ -72,6 +73,14 @@ class Product(models.Model):
 
     def get_price_display(self):
         return f"₮{self.price:,.0f}"
+
+    def get_image_url(self):
+        """Return image URL - prefer external URL, fallback to uploaded image"""
+        if self.image_url:
+            return self.image_url
+        elif self.image:
+            return self.image.url
+        return None
 
 
 class ProductFeature(models.Model):

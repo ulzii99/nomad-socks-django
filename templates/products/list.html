@@ -31,8 +31,8 @@
             <div class="product-card">
                 <div class="product-card-image">
                     <a href="{{ product.get_absolute_url }}">
-                        {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% if product.get_image_url %}
+                        <img src="{{ product.get_image_url }}" alt="{{ product.name }}">
                         {% else %}
                         <div class="placeholder-image" data-text="{{ product.name_mn|truncatewords:2 }}"></div>
                         {% endif %}

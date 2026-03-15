@@ -15,8 +15,8 @@
     <div class="product-detail">
         <div class="product-gallery">
             <div class="product-main-image">
-                {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="large">
+                {% if product.get_image_url %}
+                <img src="{{ product.get_image_url }}" alt="{{ product.name }}" class="large">
                 {% else %}
                 <div class="placeholder-image large" data-text="{{ product.name_mn|truncatewords:2 }}"></div>
                 {% endif %}
